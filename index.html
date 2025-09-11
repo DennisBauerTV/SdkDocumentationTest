@@ -238,7 +238,7 @@
 
           <!-- Assist AR SDK Card -->
           <article class="card">
-            <h2>Assist AR Integration (AssistAR Session UI)</h2>
+            <h2>Assist AR SDK</h2>
             <p>
               Integrate TeamViewer Assist AR into your app to provide AR remote
               support experiences. <strong>Note:</strong> This module depends on
@@ -255,20 +255,21 @@
         </div>
       </section>
 
-      <section class="section" aria-labelledby="tech-docs-title">
-        <h2 id="tech-docs-title">Technical Documentation</h2>
-
-        <article aria-labelledby="assistar-title">
-          <h3 id="assistar-title">Module AssistARSessionUI</h3>
-
-          <p>
-            This module provides the TeamViewer AssistAR Session UI.<br />
-            It depends on the TeamViewer ScreenSharing Sdk.
-          </p>
-
-          <h4>Usage</h4>
+      <section class="section" aria-labelledby="sdk-docs-title">
+        <h2 id="sdk-docs-title">How to use the SDKs?</h2>
+      
+        <article aria-labelledby="requirements-title">
+          <h3 id="requirements-title">Requirements</h3>
           <ul>
-            <li>Apply Kotlin Plugin version <code>2.1.20</code> or newer</li>
+            <li>minSdkVersion <code>26</code> or newer</li>
+            <li>Kotlin <code>2.2.0</code> or newer</li>
+          </ul>
+        </article>
+      
+        <article aria-labelledby="usage-title">
+          <h3 id="usage-title">Usage</h3>
+          <ul>
+            <li>Apply Kotlin Plugin version <code>2.2.0</code> or newer</li>
             <li>
               Add the TeamViewer SDK repository to your repositories in
               <code>settings.gradle.kts</code>:
@@ -287,22 +288,52 @@
               Add or edit the <code>gradle.properties</code> file in
               <code>${user.home}/.gradle</code> or the project directory.
               Generate a
-              <a href=https://dev.azure.com/TeamViewerMobileSDK/_details/security/tokens>Personal Access Token</a>
+              <a href="https://dev.azure.com/TeamViewerMobileSDK/_details/security/tokens">Personal Access Token</a>
               with Packaging read scopes and paste it into the
               <code>PERSONAL_ACCESS_TOKEN</code> placeholder.
               <pre><code class="language-gradle">teamviewerSdkCredentialsUsername=TeamViewerMobileSDK
 teamviewerSdkCredentialsPassword=PERSONAL_ACCESS_TOKEN</code></pre>
             </li>
-
-            <li>
-              Add the following to your <code>build.gradle.kts</code>:
-              <pre><code class="language-gradle">dependencies {
+          </ul>
+        </article>
+      
+        <article aria-labelledby="sample-title">
+          <h3 id="sample-title">Sample</h3>
+          <p>
+            You can find a sample of how to integrate the SDKs on GitHub:
+            <a href="https://github.com/teamviewer/TravelApp">https://github.com/teamviewer/TravelApp</a>
+          </p>
+        </article>
+      
+        <article aria-labelledby="screensharing-title">
+          <h2 id="screensharing-title">Screen Sharing SDK</h2>
+          <p>Add the following to your <code>build.gradle.kts</code>:</p>
+          <pre><code class="language-gradle">dependencies {
+    implementation("com.teamviewer.sdk:screensharing:&lt;VERSION&gt;")
+}</code></pre>
+          <p>
+            See
+            <a href="https://github.com/teamviewer/TravelApp/blob/master/app/src/main/java/com/teamviewer/example/travel/ScreenSharingWrapper.java">ScreenSharingWrapper</a>
+            in the sample app for next steps on how to configure the SDK and establish a TeamViewer session through the SDK.
+          </p>
+        </article>
+      
+        <article aria-labelledby="assistar-title">
+          <h2 id="assistar-title">Assist AR SDK</h2>
+          <p>The Assist AR SDK depends on the TeamViewer ScreenSharing SDK.</p>
+          <p>Add the following to your <code>build.gradle.kts</code>:</p>
+          <pre><code class="language-gradle">dependencies {
     implementation("com.teamviewer.sdk:assistar:&lt;VERSION&gt;")
 }</code></pre>
-            </li>
-          </ul>
-
-          <h4>Permissions</h4>
+          <p>
+            See
+            <a href="https://github.com/teamviewer/TravelApp/blob/master/app/src/main/java/com/teamviewer/example/travel/ScreenSharingWrapper.java">ScreenSharingWrapper</a>
+            in the sample app for next steps on how to configure the SDK and establish a TeamViewer session through the SDK.
+          </p>
+        </article>
+      
+        <article aria-labelledby="permissions-title">
+          <h3 id="permissions-title">Permissions</h3>
           <p>The following permissions will be automatically added:</p>
           <ul>
             <li><code>android.permission.RECORD_AUDIO</code></li>
@@ -312,43 +343,39 @@ teamviewerSdkCredentialsPassword=PERSONAL_ACCESS_TOKEN</code></pre>
               Sdk 28 and below when file is received from expert/supporter side
             </li>
           </ul>
-
-          <h4>Notification</h4>
+        </article>
+      
+        <article aria-labelledby="notification-title">
+          <h3 id="notification-title">Notification</h3>
           <ul>
             <li>
-              <code
-                >&lt;uses-permission
-                android:name="android.permission.POST_NOTIFICATIONS" /&gt;</code
-              >
+              <code>&lt;uses-permission android:name="android.permission.POST_NOTIFICATIONS" /&gt;</code>
               needs to be added to your AndroidManifest.xml<br />
-              It is required to show an ongoing session notification during a
-              call to keep the VoIP connection alice, even if the user puts your
-              app to the background.
+              It is required to show an ongoing session notification during a call to
+              keep the VoIP connection alive, even if the user puts your app in the
+              background.
             </li>
             <li>
-              Create a NotificationChannel in your app or reuse an existing one.
-              The channel doesn't need a high priority or any ringing or
-              vibration.<br />
+              Create a NotificationChannel in your app or reuse an existing one. The
+              channel doesn't need a high priority or any ringing or vibration.<br />
               It is designed to be a silent notification.
             </li>
             <li>
-              You don't need the <code>POST_NOTIFICATION</code> permission if
-              you don't want to show the notification at all on Android devices
-              greater then Android 13.
+              You don't need the <code>POST_NOTIFICATIONS</code> permission if you
+              don't want to show the notification at all on Android devices greater
+              than Android 13.
             </li>
           </ul>
-
-          <pre><code class="language-java">import androidx.core.app.NotificationChannelCompat;
-import androidx.core.app.NotificationManagerCompat;
-
-NotificationChannelCompat notificationChannel = new NotificationChannelCompat
-    .Builder("&lt;Channel_ID&gt;", NotificationManagerCompat.IMPORTANCE_LOW)
+          <pre><code class="language-kotlin">import androidx.core.app.NotificationChannelCompat
+import androidx.core.app.NotificationManagerCompat
+      
+val notificationChannel = NotificationChannelCompat.Builder("&lt;Channel_ID&gt;", NotificationManagerCompat.IMPORTANCE_LOW)
     .setName("&lt;Channel_Title&gt;")
     .setDescription("&lt;Description&gt;")
-    .build();
-NotificationManagerCompat.from(this).createNotificationChannel(notificationChannel);</code></pre>
+    .build()
+NotificationManagerCompat.from(this).createNotificationChannel(notificationChannel)</code></pre>
         </article>
-      </section>
+      </section>      
 
       <footer>© TeamViewer – Android SDK Documentation</footer>
     </main>
